@@ -7,6 +7,7 @@ class QuizState extends Equatable {
     this.score = 0,
   });
 
+  final status;
   final Questionnaire questionnaire;
   final int currentQuestionIndex;
   final int score;

@@ -12,14 +12,14 @@ class QuizView extends StatelessWidget {
           return Scaffold(
             body: Column(
               children: [
-                Text(state.questionnaire.questions[state.currentQuestionIndex].question),
+                Text(state.questionnaire.questions[0]),
                 for (var alternative in state.questionnaire.questions[state.currentQuestionIndex].alternatives)
                   Text(alternative),
                 ElevatedButton(
                   onPressed: () {
                     // Add logic to handle the answer
                   },
-                  child: Text('Next'),
+                  child: const Text('Next'),
                 ),
               ],
             ),

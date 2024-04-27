@@ -13,7 +13,7 @@ class QuizPage extends StatelessWidget {
     return BlocProvider(
         create: (context) => QuizBloc(
             id: id
-        )..,
+        )..add(GetQuizEvent(id: id)),
       child: const QuizView(),
     );
   }

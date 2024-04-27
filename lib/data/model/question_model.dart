@@ -23,15 +23,22 @@ class QuestionModel extends Question{
   }
 
   factory QuestionModel.fromJson(Map<String, dynamic> json){
-    List<String> alternatives = [];
-    for(var altJson in json["alternatives"]) {
-      alternatives.add(altJson["alternative"]);
+    try{
+      List<String> alternatives = [];
+      for(var altJson in json["alternatives"]) {
+        alternatives.add(altJson["alternative"]);
+      }
+      return QuestionModel(
+          question: json['question'],
+          answer: json['answer'],
+          altCount: json['alt_count'],
+          alternatives: alternatives
+      );
     }
-    return QuestionModel(
-      question: json['question'],
-      answer: json['answer'],
-      altCount: json['altCount'],
-      alternatives: alternatives
-    );
+    catch(e){
+      print("data/model/question_model.dart");
+      print(e.toString());
+      return const QuestionModel();
+    }
   }
 }

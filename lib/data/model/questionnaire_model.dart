@@ -9,17 +9,22 @@ class QuestionnaireModel extends Questionnaire{
   });
 
   factory QuestionnaireModel.fromJson(Map<String, dynamic> json, String id){
-    List<dynamic> questionList = json as List;
-    List<QuestionModel> questions = [];
-    for (var question in questionList) {
-      QuestionModel questionModel = QuestionModel.fromJson(question);
-      questions.add(questionModel);
+    try{
+      List<QuestionModel> questions = [];
+      for (var question in json[id]) {
+        QuestionModel questionModel = QuestionModel.fromJson(question);
+        questions.add(questionModel);
+      }
+      return QuestionnaireModel(
+          id: id,
+          title: "",
+          questions: questions
+      );
+    }catch(e){
+      print("data/model/questionnaire_model.dart");
+      print(e.toString());
+      return const QuestionnaireModel();
     }
-    return QuestionnaireModel(
-      id: json[id],
-      title: "",
-      questions: questions
-    );
 
   }
 
