@@ -32,7 +32,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           Left(value: final l) => 'Left($l)',
           Right(value: final r) => r,
         };
-        emit(state.copyWith(questionnaire: dartMatch as Questionnaire));
+        emit(state.copyWith(
+            questionnaire: dartMatch as Questionnaire,
+            status: QuizStatus.success,
+        ));
       }
     }catch (e){
       //emit(state.copyWith(status: QuizStatus.error, message: e.toString()));

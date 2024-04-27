@@ -9,22 +9,29 @@ class QuizView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
-          return Scaffold(
-            body: Column(
-              children: [
-                Text(state.questionnaire.questions[0]),
-                for (var alternative in state.questionnaire.questions[state.currentQuestionIndex].alternatives)
-                  Text(alternative),
-                ElevatedButton(
-                  onPressed: () {
-                    // Add logic to handle the answer
-                  },
-                  child: const Text('Next'),
-                ),
-              ],
-            ),
-          );
-        }
+          if(state.status == QuizStatus.loading){
+            return CircularProgressIndicator();
+          } else if(state.status == QuizStatus.success){
+            return Scaffold(
+              body: Column(
+                children: [
+                  Text(state.questionnaire.questions[0].question),
+                  for (var alternative in state.questionnaire.questions[state.currentQuestionIndex].alternatives)
+                    Text(alternative),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add logic to handle the answer
+                    },
+                    child: const Text('Next'),
+                  ),
+                ],
+              ),
+            );
+          } else if(state.status == QuizStatus.failure){
+            return Text('Failed to load questions');
+          } else {
+            return Text('Unknown error');
+        }}
     );
   }
 }
