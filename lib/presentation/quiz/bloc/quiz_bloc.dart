@@ -51,6 +51,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         state.copyWith(
             currentQuestionIndex: state.currentQuestionIndex + 1,
             isAnswered: false,
+          selectedAnswer: -1,
         ));
   }
 

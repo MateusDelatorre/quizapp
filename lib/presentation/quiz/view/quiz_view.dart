@@ -36,7 +36,7 @@ class QuizView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                             child: LinearProgressIndicator(
                               color: Colors.amber.shade900,
-                              value: state.currentQuestionIndex / state.questionnaire.questions.length,
+                              value: state.currentQuestionIndex / (state.questionnaire.questions.length -1),
                               minHeight: 20,
                             ),
                           ),
