@@ -4,6 +4,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:quizapp/data/cache_repository/questionnaire_repo_cache.dart';
 import 'package:quizapp/domain/entities/questionnaire.dart';
 import 'package:quizapp/domain/use_case/questionnaire_use_case.dart';
+import 'package:flutter/material.dart';
+import 'package:quizapp/presentation/constants.dart';
 
 part 'quiz_event.dart';
 part 'quiz_state.dart';
@@ -12,20 +14,22 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   QuizBloc({
     required this.id,
   }) : super(const QuizState()) {
-    on<GetQuizEvent>(onGetQuizEvent);
+    on<GetQuizEvent>(onGetQuiz);
+    on<NextQuestionEvent>(onNextQuestion);
+    on<SelectAnswerEvent>(onSelectAnswer);
   }
 
   final String id;
-  final QuestionnaireUseCase _questionnaireUseCase = QuestionnaireUseCase(QuestionnaireRepoCache());
+  final QuestionnaireUseCase _questionnaireUseCase =
+      QuestionnaireUseCase(QuestionnaireRepoCache());
 
-  onGetQuizEvent(GetQuizEvent event, Emitter<QuizState> emit) async {
-    try{
-      print("teste");
+  onGetQuiz(GetQuizEvent event, Emitter<QuizState> emit) async {
+    try {
       var response = await _questionnaireUseCase.getQuestionnaire(id);
-      if(response.isLeft()){
+      if (response.isLeft()) {
         //emit(state.copyWith(status: QuizStatus.error, message: response.leftMap((l) => l.toString()).toString()));
         return;
-      }else if(response.isRight()){
+      } else if (response.isRight()) {
         print(response);
         Questionnaire q = const Questionnaire();
         final dartMatch = switch (response) {
@@ -33,14 +37,38 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           Right(value: final r) => r,
         };
         emit(state.copyWith(
-            questionnaire: dartMatch as Questionnaire,
-            status: QuizStatus.success,
+          questionnaire: dartMatch as Questionnaire,
+          status: QuizStatus.success,
         ));
       }
-    }catch (e){
+    } catch (e) {
       //emit(state.copyWith(status: QuizStatus.error, message: e.toString()));
     }
   }
 
+  onNextQuestion(NextQuestionEvent event, Emitter<QuizState> emit) {
+    emit(
+        state.copyWith(
+            currentQuestionIndex: state.currentQuestionIndex + 1,
+            isAnswered: false,
+        ));
+  }
 
+  onSelectAnswer(SelectAnswerEvent event, Emitter<QuizState> emit) {
+    emit(state.copyWith(isAnswered: true));
+  }
+
+  Color getTheRightColor(int index) {
+    if (state.isAnswered) {
+      if (state
+          .questionnaire
+          .questions[state.currentQuestionIndex]
+          .answer == index) {
+        return kGreenColor;
+      } else {
+        return kRedColor;
+      }
+    }
+    return kGrayColor;
+  }
 }

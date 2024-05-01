@@ -1,37 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:quizapp/presentation/constants.dart';
 import 'package:quizapp/presentation/quiz/bloc/quiz_bloc.dart';
+import 'package:quizapp/presentation/quiz/widgets/option.dart';
 
 class QuizView extends StatelessWidget {
   const QuizView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<QuizBloc, QuizState>(
-        builder: (context, state) {
-          if(state.status == QuizStatus.loading){
-            return CircularProgressIndicator();
-          } else if(state.status == QuizStatus.success){
-            return Scaffold(
-              body: Column(
+    return BlocBuilder<QuizBloc, QuizState>(builder: (context, state) {
+      if (state.status == QuizStatus.loading) {
+        return const CircularProgressIndicator();
+      } else if (state.status == QuizStatus.success) {
+        return Stack(
+          children: [
+            Scaffold(
+              body: Stack(
                 children: [
-                  Text(state.questionnaire.questions[0].question),
-                  for (var alternative in state.questionnaire.questions[state.currentQuestionIndex].alternatives)
-                    Text(alternative),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add logic to handle the answer
-                    },
-                    child: const Text('Next'),
+                  Positioned.fill(
+                    child: Image.asset(
+                      'bg.png',
+                      repeat: ImageRepeat.repeat,
+                    ),
+                  ),
+                  SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: LinearProgressIndicator(
+                              color: Colors.amber.shade900,
+                              value: state.currentQuestionIndex / state.questionnaire.questions.length,
+                              minHeight: 20,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: kDefaultPadding),
+                        const Divider(thickness: 1.5),
+                        const SizedBox(height: kDefaultPadding),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                state.questionnaire.questions[state.currentQuestionIndex].question,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(color: kBlackColor),
+                              ),
+                              const SizedBox(height: kDefaultPadding / 2),
+                              ...List.generate(
+                                state.questionnaire
+                                    .questions[state.currentQuestionIndex].altCount,
+                                    (index) => Option(
+                                  index: index,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if(state.currentQuestionIndex == (state.questionnaire.questions.length - 1)){
+                                    context.read<QuizBloc>().add(const NextQuestionEvent());
+                                  }
+                                  context.read<QuizBloc>().add(const NextQuestionEvent());
+                                },
+                                child: const Text('Next'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            );
-          } else if(state.status == QuizStatus.failure){
-            return Text('Failed to load questions');
-          } else {
-            return Text('Unknown error');
-        }}
-    );
+            )
+          ],
+        );
+      } else if (state.status == QuizStatus.failure) {
+        return Text('Failed to load questions');
+      } else {
+        return Text('Unknown error');
+      }
+    });
   }
 }

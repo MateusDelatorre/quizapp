@@ -12,11 +12,11 @@ class HomeView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ElevatedButton(onPressed: (){
-            context.go('/game/1.1');
-          },
-              child: const Text('Start Game')
-          ),
+          ElevatedButton(
+              onPressed: () {
+                context.go('/game/1.1');
+              },
+              child: const Text('Start Game')),
         ],
       ),
     );

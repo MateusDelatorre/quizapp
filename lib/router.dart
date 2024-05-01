@@ -11,7 +11,8 @@ class MyRouter {
       ),
       GoRoute(
         path: '/game/:id',
-        builder: (context, GoRouterState state) => QuizPage(id: state.pathParameters['id'] ?? ""),
+        builder: (context, GoRouterState state) =>
+            QuizPage(id: state.pathParameters['id'] ?? ""),
       ),
     ],
   );

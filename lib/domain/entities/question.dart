@@ -1,4 +1,4 @@
-class Question{
+class Question {
   final String question;
   final List<String> alternatives;
   final int altCount;

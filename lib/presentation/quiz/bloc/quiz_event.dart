@@ -12,3 +12,19 @@ class GetQuizEvent extends QuizEvent {
   @override
   List<Object> get props => [id];
 }
+
+class NextQuestionEvent extends QuizEvent {
+  const NextQuestionEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SelectAnswerEvent extends QuizEvent {
+  const SelectAnswerEvent({required this.answer});
+
+  final int answer;
+
+  @override
+  List<Object> get props => [answer];
+}

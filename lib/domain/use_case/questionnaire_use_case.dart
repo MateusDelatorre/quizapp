@@ -3,7 +3,7 @@ import 'package:quizapp/domain/entities/questionnaire.dart';
 import 'package:quizapp/domain/error/failure.dart';
 import 'package:quizapp/domain/repository/questionnaire_repository.dart';
 
-class QuestionnaireUseCase{
+class QuestionnaireUseCase {
   final QuestionnaireRepository _repository;
 
   QuestionnaireUseCase(this._repository);

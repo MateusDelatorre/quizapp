@@ -5,11 +5,8 @@ class Questionnaire {
   final String title;
   final List<Question> questions;
 
-  const Questionnaire({
-    this.id = "",
-    this.title = "",
-    this.questions = const []
-  });
+  const Questionnaire(
+      {this.id = "", this.title = "", this.questions = const []});
 
   copyWith({
     String? id,

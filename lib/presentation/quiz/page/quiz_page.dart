@@ -11,9 +11,7 @@ class QuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => QuizBloc(
-            id: id
-        )..add(GetQuizEvent(id: id)),
+      create: (context) => QuizBloc(id: id)..add(GetQuizEvent(id: id)),
       child: const QuizView(),
     );
   }

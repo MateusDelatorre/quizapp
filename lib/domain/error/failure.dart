@@ -1,3 +1,3 @@
-abstract class Failure<T>{
+abstract class Failure<T> {
   T getErrorType();
 }
