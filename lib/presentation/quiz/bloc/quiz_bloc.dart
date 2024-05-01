@@ -55,7 +55,12 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
 
   onSelectAnswer(SelectAnswerEvent event, Emitter<QuizState> emit) {
-    emit(state.copyWith(isAnswered: true));
+    emit(
+        state.copyWith(
+            isAnswered: true,
+            selectedAnswer: event.answer,
+        )
+    );
   }
 
   Color getTheRightColor(int index) {

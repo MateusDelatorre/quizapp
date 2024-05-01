@@ -69,12 +69,12 @@ class QuizView extends StatelessWidget {
                                 ),
                               ),
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: state.isAnswered ? () {
                                   if(state.currentQuestionIndex == (state.questionnaire.questions.length - 1)){
                                     context.read<QuizBloc>().add(const NextQuestionEvent());
                                   }
                                   context.read<QuizBloc>().add(const NextQuestionEvent());
-                                },
+                                } : null,
                                 child: const Text('Next'),
                               ),
                             ],

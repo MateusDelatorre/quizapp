@@ -20,11 +20,13 @@ class Option extends StatelessWidget {
             context.read<QuizBloc>().add(SelectAnswerEvent(answer: index));
           },
           child: Container(
-            margin: EdgeInsets.only(top: kDefaultPadding),
-            padding: EdgeInsets.all(kDefaultPadding),
+            margin: const EdgeInsets.only(top: kDefaultPadding),
+            padding: const EdgeInsets.all(kDefaultPadding),
             decoration: BoxDecoration(
               border: Border.all(
-                  color: context.read<QuizBloc>().getTheRightColor(index)),
+                  color: context.read<QuizBloc>().getTheRightColor(index),
+                  width: state.selectedAnswer == index ? 4 : 1
+              ),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
