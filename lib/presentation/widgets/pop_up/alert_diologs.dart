@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/presentation/widgets/text/paragraph_text.dart';
 import 'package:quizapp/presentation/widgets/text/title_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AlertDialogs {
-  getPopUpYesNo(
+  getPopUpTwoOptions(
       {required BuildContext context,
-        required String title,
-        required void Function() onYesPressed,
-        required void Function() onNoPressed}) {
-    return showDialog<void>(
+      required String title,
+      required void Function() onYesPressed,
+      required void Function() onNoPressed}) {
+      return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
@@ -20,12 +19,13 @@ class AlertDialogs {
               children: [
                 TextButton(
                   onPressed: onYesPressed,
-                  child:
-                  ParagraphText(title: AppLocalizations.of(context)!.yes),
+                  child: const ParagraphText(
+                      title: "yes" /*AppLocalizations.of(context)!.yes*/),
                 ),
                 TextButton(
                   onPressed: onNoPressed,
-                  child: ParagraphText(title: AppLocalizations.of(context)!.no),
+                  child: const ParagraphText(
+                      title: "no" /*AppLocalizations.of(context)!.no*/),
                 ),
               ],
             ),
@@ -94,9 +94,9 @@ class AlertDialogs {
 
   getInfoPopUp(
       {required BuildContext context,
-        required String title,
-        required String message,
-        required void Function() onOkPressed}) {
+      required String title,
+      required String message,
+      required void Function() onOkPressed}) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -117,8 +117,8 @@ class AlertDialogs {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                           const Color.fromARGB(255, 124, 124, 124))),
-                  child: ParagraphText(
-                      title: AppLocalizations.of(context)!.ok,
+                  child: const ParagraphText(
+                      title: "ok" /*AppLocalizations.of(context)!.ok*/,
                       color: Colors.white),
                 ),
               ],

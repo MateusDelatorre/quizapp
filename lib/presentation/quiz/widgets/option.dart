@@ -25,8 +25,7 @@ class Option extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                   color: context.read<QuizBloc>().getTheRightColor(index),
-                  width: state.selectedAnswer == index ? 4 : 1
-              ),
+                  width: state.selectedAnswer == index ? 4 : 1),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
@@ -34,27 +33,36 @@ class Option extends StatelessWidget {
               children: [
                 Text(
                   "${index + 1}. ${state.questionnaire.questions[state.currentQuestionIndex].alternatives[index]}",
-                  style: TextStyle(color: context.read<QuizBloc>().getTheRightColor(index), fontSize: 16),
+                  style: TextStyle(
+                      color: context.read<QuizBloc>().getTheRightColor(index),
+                      fontSize: 16),
                 ),
                 Container(
                   height: 26,
                   width: 26,
                   decoration: BoxDecoration(
-                    color: context.read<QuizBloc>().getTheRightColor(index) == kGrayColor
+                    color: context.read<QuizBloc>().getTheRightColor(index) ==
+                            kGrayColor
                         ? Colors.transparent
                         : context.read<QuizBloc>().getTheRightColor(index),
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: context.read<QuizBloc>().getTheRightColor(index)),
+                    border: Border.all(
+                        color:
+                            context.read<QuizBloc>().getTheRightColor(index)),
                   ),
-                  child: context.read<QuizBloc>().getTheRightColor(index) == kGrayColor
+                  child: context.read<QuizBloc>().getTheRightColor(index) ==
+                          kGrayColor
                       ? null
-                      : Icon(Icons.traffic_sharp, color: context.read<QuizBloc>().getTheRightColor(index), size: 16),
+                      : Icon(Icons.traffic_sharp,
+                          color:
+                              context.read<QuizBloc>().getTheRightColor(index),
+                          size: 16),
                 )
               ],
             ),
           ),
         );
-      }else{
+      } else {
         return const SizedBox();
       }
     });

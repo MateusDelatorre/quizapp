@@ -36,6 +36,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           Left(value: final l) => 'Left($l)',
           Right(value: final r) => r,
         };
+        q = dartMatch as Questionnaire;
+        print(q.id);
         emit(state.copyWith(
           questionnaire: dartMatch as Questionnaire,
           status: QuizStatus.success,
@@ -47,29 +49,24 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
 
   onNextQuestion(NextQuestionEvent event, Emitter<QuizState> emit) {
-    emit(
-        state.copyWith(
-            currentQuestionIndex: state.currentQuestionIndex + 1,
-            isAnswered: false,
-          selectedAnswer: -1,
-        ));
+    emit(state.copyWith(
+      currentQuestionIndex: state.currentQuestionIndex + 1,
+      isAnswered: false,
+      selectedAnswer: -1,
+    ));
   }
 
   onSelectAnswer(SelectAnswerEvent event, Emitter<QuizState> emit) {
-    emit(
-        state.copyWith(
-            isAnswered: true,
-            selectedAnswer: event.answer,
-        )
-    );
+    emit(state.copyWith(
+      isAnswered: true,
+      selectedAnswer: event.answer,
+    ));
   }
 
   Color getTheRightColor(int index) {
     if (state.isAnswered) {
-      if (state
-          .questionnaire
-          .questions[state.currentQuestionIndex]
-          .answer == index) {
+      if (state.questionnaire.questions[state.currentQuestionIndex].answer ==
+          index) {
         return kGreenColor;
       } else {
         return kRedColor;
