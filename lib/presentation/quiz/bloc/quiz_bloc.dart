@@ -51,7 +51,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   onNextQuestion(NextQuestionEvent event, Emitter<QuizState> emit) {
     if(state.selectedAnswer == state.questionnaire.
     questions[state.currentQuestionIndex].answer){
-      if(state.currentQuestionIndex == (state.questionnaire.questions.length -1)){
+      if(state.currentQuestionIndex == (state.questionnaire.questions.length -8)){
         emit(state.copyWith(
           isAnswered: false,
           selectedAnswer: -1,

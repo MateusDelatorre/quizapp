@@ -3,6 +3,7 @@ import 'package:quizapp/presentation/widgets/text/paragraph_text.dart';
 import 'package:quizapp/presentation/widgets/text/title_text.dart';
 
 class AlertDialogs {
+
   getPopUpTwoOptions(
       {required BuildContext context,
       required String title,

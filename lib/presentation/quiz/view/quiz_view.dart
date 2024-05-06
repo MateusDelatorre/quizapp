@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quizapp/presentation/constants.dart';
+import 'package:quizapp/presentation/hero_dialog_route.dart';
 import 'package:quizapp/presentation/quiz/bloc/quiz_bloc.dart';
 import 'package:quizapp/presentation/quiz/widgets/option.dart';
+import 'package:quizapp/presentation/quiz/widgets/score_pop_up.dart';
 import 'package:quizapp/presentation/widgets/pop_up/alert_diologs.dart';
 
 class QuizView extends StatelessWidget {
@@ -14,17 +16,32 @@ class QuizView extends StatelessWidget {
     return BlocConsumer<QuizBloc, QuizState>(
         listener: (context, state) {
           if(state.ended){
-            AlertDialogs().getPopUpTwoOptions(
+
+            ScorePopUp().showPopUp(
               context: context,
-              title: 'Yor Score: ${state.score}',
-              onYesPressed: () {
+              winner: true,//state.score > 9,
+              score: state.score,
+              onContinuePressed: () {
                 Navigator.pop(context);
                 context.go('/game/1.2');
               },
               onNoPressed: () {
                 Navigator.pop(context);
+                context.go('/');
               },
             );
+
+            // AlertDialogs().getPopUpTwoOptions(
+            //   context: context,
+            //   title: 'Yor Score: ${state.score}',
+            //   onYesPressed: () {
+            //     Navigator.pop(context);
+            //     context.go('/game/1.2');
+            //   },
+            //   onNoPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            // );
           }
         },
         builder: (context, state) {
@@ -93,15 +110,18 @@ class QuizView extends StatelessWidget {
                                       index: index,
                                     ),
                                   ),
-                                  ElevatedButton(
-                                    onPressed: state.isAnswered
-                                        ? () {
-                                            context
-                                                .read<QuizBloc>()
-                                                .add(const NextQuestionEvent());
-                                          }
-                                        : null,
-                                    child: const Text('Next'),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                      onPressed: state.isAnswered
+                                          ? () {
+                                              context
+                                                  .read<QuizBloc>()
+                                                  .add(const NextQuestionEvent());
+                                            }
+                                          : null,
+                                      child: const Text('Next'),
+                                    ),
                                   ),
                                 ],
                               ),
