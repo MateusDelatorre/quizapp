@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quizapp/presentation/home/view/home_view.dart';
 import 'package:quizapp/presentation/quiz/page/quiz_page.dart';
@@ -12,8 +13,12 @@ class MyRouter {
       GoRoute(
         path: '/game/:id',
         builder: (context, GoRouterState state) =>
-            QuizPage(id: state.pathParameters['id'] ?? ""),
+            QuizPage(
+                key: UniqueKey(),
+                id: state.pathParameters['id'] ?? "",
+            ),
       ),
     ],
+    debugLogDiagnostics: true,
   );
 }

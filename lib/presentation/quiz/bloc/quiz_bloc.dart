@@ -30,13 +30,13 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         //emit(state.copyWith(status: QuizStatus.error, message: response.leftMap((l) => l.toString()).toString()));
         return;
       } else if (response.isRight()) {
-        print(response);
         Questionnaire q = const Questionnaire();
         final dartMatch = switch (response) {
           Left(value: final l) => 'Left($l)',
           Right(value: final r) => r,
         };
         q = dartMatch as Questionnaire;
+        print("Bloc");
         print(q.id);
         emit(state.copyWith(
           questionnaire: dartMatch as Questionnaire,

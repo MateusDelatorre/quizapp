@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quizapp/presentation/constants.dart';
 import 'package:quizapp/presentation/quiz/bloc/quiz_bloc.dart';
@@ -20,7 +19,8 @@ class QuizView extends StatelessWidget {
               title: 'Do you want to finish the questionnaire?',
               onYesPressed: () {
                 Navigator.pop(context);
-                context.go('/game/1.2');
+                GoRouter.of(context!).replace('/game/1.2');
+                //context.go('/game/1.2');
               },
               onNoPressed: () {
                 Navigator.pop(context);
