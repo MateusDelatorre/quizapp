@@ -49,38 +49,85 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
 
   onNextQuestion(NextQuestionEvent event, Emitter<QuizState> emit) {
-    if(state.selectedAnswer == state.questionnaire.
-    questions[state.currentQuestionIndex].answer){
-      if(state.currentQuestionIndex == (state.questionnaire.questions.length -8)){
+    bool correctAnswer = state.selectedAnswer == state.questionnaire.
+    questions[state.currentQuestionIndex].answer;
+    bool endOfQuestions = state.currentQuestionIndex == (state.questionnaire.questions.length -8);
+    bool winner = false/*(state.score + 1) > 9*/;
+    String newId = _questionnaireUseCase.getNextId(id, winner);
+    bool gameOver = id == newId;
+
+    switch([correctAnswer, endOfQuestions]) {
+      case [true, true]:
         emit(state.copyWith(
           isAnswered: false,
           selectedAnswer: -1,
-          score: state.score + 1,
           ended: true,
+          nextId: newId,
+          gameOver: gameOver,
         ));
-      }else{
+        break;
+      case [true, false]:
         emit(state.copyWith(
           currentQuestionIndex: state.currentQuestionIndex + 1,
           isAnswered: false,
           selectedAnswer: -1,
-          score: state.score + 1,
+          gameOver: gameOver,
+        ));
+        break;
+      case [false, true]:
+        emit(state.copyWith(
+          isAnswered: false,
+          selectedAnswer: -1,
+          ended: true,
+          gameOver: gameOver,
+          nextId: newId,
+        ));
+        break;
+      case [false, false]:
+        emit(state.copyWith(
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+          isAnswered: false,
+          selectedAnswer: -1,
+          gameOver: gameOver,
+        ));
+        break;
+    }
+    /*
+    if(correctAnswer){
+      if(endOfQuestions){
+        emit(state.copyWith(
+          isAnswered: false,
+          selectedAnswer: -1,
+          ended: true,
+          nextId: newId,
+          gameOver: gameOver,
+        ));
+      } else {
+        emit(state.copyWith(
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+          isAnswered: false,
+          selectedAnswer: -1,
+          gameOver: gameOver,
         ));
       }
-    }else{
-      if(state.currentQuestionIndex == (state.questionnaire.questions.length -1)){
+    } else{
+      if(endOfQuestions){
         emit(state.copyWith(
           isAnswered: false,
           selectedAnswer: -1,
           ended: true,
+          gameOver: gameOver,
         ));
-      }else{
+      } else {
         emit(state.copyWith(
           currentQuestionIndex: state.currentQuestionIndex + 1,
           isAnswered: false,
           selectedAnswer: -1,
+          gameOver: gameOver,
         ));
       }
     }
+    */
   }
 
   onSelectAnswer(SelectAnswerEvent event, Emitter<QuizState> emit) {

@@ -16,20 +16,35 @@ class QuizView extends StatelessWidget {
     return BlocConsumer<QuizBloc, QuizState>(
         listener: (context, state) {
           if(state.ended){
-
-            ScorePopUp().showPopUp(
-              context: context,
-              winner: true,//state.score > 9,
-              score: state.score,
-              onContinuePressed: () {
-                Navigator.pop(context);
-                context.go('/game/1.2');
-              },
-              onNoPressed: () {
-                Navigator.pop(context);
-                context.go('/');
-              },
-            );
+            if(state.gameOver){
+              ScorePopUp().showPopUp(
+                context: context,
+                winner: state.score > 9,
+                score: state.score,
+                onContinuePressed: () {
+                  Navigator.pop(context);
+                  context.go('/');
+                },
+                onNoPressed: () {
+                  Navigator.pop(context);
+                  context.go('/');
+                },
+              );
+            }else{
+              ScorePopUp().showPopUp(
+                context: context,
+                winner: state.score > 9,
+                score: state.score,
+                onContinuePressed: () {
+                  Navigator.pop(context);
+                  context.go('/game/${state.nextId}');
+                },
+                onNoPressed: () {
+                  Navigator.pop(context);
+                  context.go('/');
+                },
+              );
+            }
 
             // AlertDialogs().getPopUpTwoOptions(
             //   context: context,

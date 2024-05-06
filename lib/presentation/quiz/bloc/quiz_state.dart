@@ -12,6 +12,8 @@ class QuizState extends Equatable {
     this.isAnswered = false,
     this.selectedAnswer = -1,
     this.ended = false,
+    this.nextId = "",
+    this.gameOver = false,
   });
 
   final QuizStatus status;
@@ -22,6 +24,8 @@ class QuizState extends Equatable {
   final bool isAnswered;
   final int selectedAnswer;
   final bool ended;
+  final String nextId;
+  final bool gameOver;
 
   copyWith({
     Questionnaire? questionnaire,
@@ -32,6 +36,8 @@ class QuizState extends Equatable {
     bool? isAnswered,
     int? selectedAnswer,
     bool? ended,
+    String? nextId,
+    bool? gameOver,
   }) {
     return QuizState(
       questionnaire: questionnaire ?? this.questionnaire,
@@ -42,6 +48,8 @@ class QuizState extends Equatable {
       isAnswered: isAnswered ?? this.isAnswered,
       selectedAnswer: selectedAnswer ?? this.selectedAnswer,
       ended: ended ?? this.ended,
+      nextId: nextId ?? this.nextId,
+      gameOver: gameOver ?? this.gameOver,
     );
   }
 
@@ -55,5 +63,7 @@ class QuizState extends Equatable {
         isAnswered,
         selectedAnswer,
         ended,
+        nextId,
+        gameOver,
       ];
 }
