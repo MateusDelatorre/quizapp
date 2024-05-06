@@ -13,14 +13,13 @@ class QuizView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<QuizBloc, QuizState>(
         listener: (context, state) {
-          if(state.currentQuestionIndex == state.questionnaire.questions.length - 8){
+          if(state.ended){
             AlertDialogs().getPopUpTwoOptions(
               context: context,
-              title: 'Do you want to finish the questionnaire?',
+              title: 'Yor Score: ${state.score}',
               onYesPressed: () {
                 Navigator.pop(context);
-                GoRouter.of(context!).replace('/game/1.2');
-                //context.go('/game/1.2');
+                context.go('/game/1.2');
               },
               onNoPressed: () {
                 Navigator.pop(context);
@@ -97,12 +96,6 @@ class QuizView extends StatelessWidget {
                                   ElevatedButton(
                                     onPressed: state.isAnswered
                                         ? () {
-                                            if (state.currentQuestionIndex ==
-                                                (state.questionnaire.questions
-                                                        .length -
-                                                    1)) {
-
-                                            }
                                             context
                                                 .read<QuizBloc>()
                                                 .add(const NextQuestionEvent());

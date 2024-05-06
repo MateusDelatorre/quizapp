@@ -49,11 +49,38 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
 
   onNextQuestion(NextQuestionEvent event, Emitter<QuizState> emit) {
-    emit(state.copyWith(
-      currentQuestionIndex: state.currentQuestionIndex + 1,
-      isAnswered: false,
-      selectedAnswer: -1,
-    ));
+    if(state.selectedAnswer == state.questionnaire.
+    questions[state.currentQuestionIndex].answer){
+      if(state.currentQuestionIndex == (state.questionnaire.questions.length -1)){
+        emit(state.copyWith(
+          isAnswered: false,
+          selectedAnswer: -1,
+          score: state.score + 1,
+          ended: true,
+        ));
+      }else{
+        emit(state.copyWith(
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+          isAnswered: false,
+          selectedAnswer: -1,
+          score: state.score + 1,
+        ));
+      }
+    }else{
+      if(state.currentQuestionIndex == (state.questionnaire.questions.length -1)){
+        emit(state.copyWith(
+          isAnswered: false,
+          selectedAnswer: -1,
+          ended: true,
+        ));
+      }else{
+        emit(state.copyWith(
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+          isAnswered: false,
+          selectedAnswer: -1,
+        ));
+      }
+    }
   }
 
   onSelectAnswer(SelectAnswerEvent event, Emitter<QuizState> emit) {
